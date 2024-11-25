@@ -1,15 +1,26 @@
+import 'dart:developer';
+
 import 'package:showcase_app/models/welcome.dart';
-import 'package:showcase_app/services/welcome_api_client.dart';
+import 'package:showcase_app/services/welcome_api.dart';
 
 class WelcomeRepo {
-  WelcomeRepo({WelcomeApiClient? welcomeApiClient})
-      : _welcomeApiClient = welcomeApiClient ?? WelcomeApiClient();
+  WelcomeRepo({WelcomeAPI? welcomeApi})
+      : _welcomeAPI = welcomeApi ?? WelcomeAPI();
 
-  final WelcomeApiClient _welcomeApiClient;
+  final WelcomeAPI _welcomeAPI;
 
   Future<Welcome> getWelcomeMessage() async {
-    final data = await _welcomeApiClient.getWelcomeMessage();
-    final welcome = data.map((json) => Welcome.fromJson(json));
-    return welcome;
+    try {
+      final data = await _welcomeAPI.getWelcomeMessage();
+      final welcomeMessage = data["welcomeMessage"];
+      final welcome = Welcome(
+        title: welcomeMessage['title'],
+        message: welcomeMessage['message'],
+      );
+      return welcome;
+    } catch (error) {
+      log(error.toString());
+      return Welcome(title: null, message: null);
+    }
   }
 }

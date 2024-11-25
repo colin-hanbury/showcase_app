@@ -47,40 +47,42 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: context.read<NavBloc>().state.pageIndex,
-        onDestinationSelected: (int index) => context.read<NavBloc>().add(
-              PageChangedEvent(
-                index: index,
+    return BlocBuilder<NavBloc, NavState>(
+      builder: (context, state) {
+        return Scaffold(
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: state.pageIndex,
+            onDestinationSelected: (int index) => context.read<NavBloc>().add(
+                  PageChangedEvent(
+                    index: index,
+                  ),
+                ),
+            destinations: const <Widget>[
+              NavigationDestination(
+                selectedIcon: Icon(Icons.home),
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
               ),
-            ),
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+              NavigationDestination(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
           ),
-          NavigationDestination(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-      ),
-      body: _body(),
+          body: _body(state.pageIndex),
+        );
+      },
     );
   }
 
-  Widget _body() {
-    return BlocBuilder<NavBloc, NavState>(builder: (context, state) {
-      switch (state.pageIndex) {
-        case 0:
-          return const HomePage();
-        case 1:
-          return const SettingsPage();
-        default:
-          return const HomePage();
-      }
-    });
+  Widget _body(int index) {
+    switch (index) {
+      case 0:
+        return const HomePage();
+      case 1:
+        return const SettingsPage();
+      default:
+        return const HomePage();
+    }
   }
 }

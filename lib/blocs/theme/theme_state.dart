@@ -14,7 +14,7 @@ class ThemeState extends Equatable {
   ThemeState({
     this.status = ThemeStatus.initial,
     mode,
-  }) : mode = mode ?? ThemeMode.system;
+  }) : mode = mode ?? ThemeMode.light;
 
   @override
   List<Object?> get props => [status, mode];

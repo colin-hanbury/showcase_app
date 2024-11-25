@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class HomeEvent extends Equatable {
+class WelcomeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class GetWelcomeMessage extends HomeEvent {}
+class GetWelcomeMessage extends WelcomeEvent {}

@@ -1,16 +1,19 @@
 # showcase_app
 
-A showcase Flutter app to demonstrate the app development skills of Colin Hanbury for Adapptor developer role.
+A showcase Flutter app to demonstrate the app development skills of Colin Hanbury for a developer role at Adapptor.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Have installed Flutter, Dart and a code editor of your choice
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Local Setup
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- flutter pub get
+- create a .dotenv file in lib directory
+- populate baseurl with localhost url or if swap out localhost for a cloud hosted url
+- run in chrome or android (iOS not yet tested) using the following: flutter run lib/main.dart
+- 
+
+

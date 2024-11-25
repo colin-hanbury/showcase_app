@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:showcase_app/models/welcome.dart';
 
-enum HomeStatus {
+enum WelcomeStatus {
   initial,
   success,
   loading,
   error,
 }
 
-class HomeState extends Equatable {
+class WelcomeState extends Equatable {
   final Welcome welcome;
-  final HomeStatus status;
+  final WelcomeStatus status;
 
-  HomeState({
-    this.status = HomeStatus.initial,
+  WelcomeState({
+    this.status = WelcomeStatus.initial,
     Welcome? welcome,
-  }) : welcome = welcome ?? Welcome(title: '', message: '');
+  }) : welcome = welcome ?? Welcome(title: null, message: null);
 
   @override
   List<Object?> get props => [
@@ -23,11 +23,11 @@ class HomeState extends Equatable {
         welcome,
       ];
 
-  HomeState copyWith({
-    HomeStatus? status,
+  WelcomeState copyWith({
+    WelcomeStatus? status,
     Welcome? welcome,
   }) =>
-      HomeState(
+      WelcomeState(
         status: status ?? this.status,
         welcome: welcome ?? this.welcome,
       );
