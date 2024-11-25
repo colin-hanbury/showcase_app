@@ -90,8 +90,11 @@ class _HomePageState extends State<HomePage> {
     switch (status) {
       case ActionsStatus.loading:
         return Stack(
+          alignment: Alignment.center,
           children: [
-            _form(),
+            Center(
+              child: _form(),
+            ),
             Center(
               child: CircularProgressIndicator(
                 backgroundColor:

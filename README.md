@@ -14,6 +14,6 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 - create a .dotenv file in lib directory
 - populate baseurl with localhost url or if swap out localhost for a cloud hosted url
 - run in chrome or android (iOS not yet tested) using the following: flutter run lib/main.dart
-- 
+
 
 
