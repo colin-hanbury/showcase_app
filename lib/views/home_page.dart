@@ -6,7 +6,7 @@ import 'package:showcase_app/blocs/actions/actions_state.dart';
 import 'package:showcase_app/blocs/welcome/welcome_bloc.dart';
 import 'package:showcase_app/blocs/welcome/welcome_event.dart';
 import 'package:showcase_app/blocs/welcome/welcome_state.dart';
-import 'package:showcase_app/models/visitor.dart';
+import 'package:showcase_app/models/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,26 +50,20 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       case WelcomeStatus.initial:
-        context.read<WelcomeBloc>().add(GetWelcomeMessage());
+        context.read<WelcomeBloc>().add(
+              GetWelcomeMessage(
+                  id: context.read<ActionsBloc>().state.user.id ?? ''),
+            );
         return const SizedBox();
       default:
         return ListTile(
           title: Text(
-            key: const Key('title'),
-            context.read<WelcomeBloc>().state.welcome.title ?? 'Welcome',
+            context.read<WelcomeBloc>().state.message,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          subtitle: Text(
-            key: const Key('message'),
-            context.read<WelcomeBloc>().state.welcome.message ?? 'Hi',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.normal),
           ),
         );
     }
@@ -114,7 +108,10 @@ class _HomePageState extends State<HomePage> {
         );
         return _form();
       case ActionsStatus.success:
-        context.read<WelcomeBloc>().add(GetWelcomeMessage());
+        context.read<WelcomeBloc>().add(
+              GetWelcomeMessage(
+                  id: context.read<ActionsBloc>().state.user.id ?? ''),
+            );
         return _form();
       default:
         return _form();
@@ -178,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                       if (_formKey.currentState!.validate()) {
                         context.read<ActionsBloc>().add(
                               SubmitDetails(
-                                visitor: Visitor(
+                                user: User(
                                   name: nameInputController.value.text,
                                   nationality:
                                       nationalityInputController.value.text,

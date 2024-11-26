@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:showcase_app/blocs/actions/actions_event.dart';
 import 'package:showcase_app/blocs/actions/actions_state.dart';
+import 'package:showcase_app/models/user.dart';
 import 'package:showcase_app/repos/actions_repo.dart';
 
 class ActionsBloc extends Bloc<ActionsEvent, ActionsState> {
@@ -15,15 +16,17 @@ class ActionsBloc extends Bloc<ActionsEvent, ActionsState> {
       SubmitDetails event, Emitter<ActionsState> emitter) async {
     emitter(state.copyWith(status: ActionsStatus.loading));
     try {
-      final result = await actionsRepo.submitDetails(
-        event.visitor,
+      final User? user = await actionsRepo.submitDetails(
+        event.user,
       );
-      emitter(state.copyWith(
-          status: result ? ActionsStatus.success : ActionsStatus.error));
+      emitter(
+        state.copyWith(
+          status: user == null ? ActionsStatus.error : ActionsStatus.success,
+          user: user,
+        ),
+      );
     } catch (e) {
-      emitter(state.copyWith(
-        status: ActionsStatus.error,
-      ));
+      emitter(state.copyWith(status: ActionsStatus.error, user: null));
     }
   }
 }

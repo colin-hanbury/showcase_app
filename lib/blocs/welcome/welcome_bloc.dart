@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:showcase_app/blocs/welcome/welcome_event.dart';
 import 'package:showcase_app/blocs/welcome/welcome_state.dart';
-import 'package:showcase_app/models/welcome.dart';
 import 'package:showcase_app/repos/welcome_repo.dart';
 
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc({required this.welcomeRepo}) : super(WelcomeState()) {
-    on<GetWelcomeMessage>(getWelcomeMessage);
+    on<GetWelcomeMessage>(
+        getWelcomeMessage as EventHandler<GetWelcomeMessage, WelcomeState>);
   }
 
   final WelcomeRepo welcomeRepo;
@@ -15,18 +15,18 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
       GetWelcomeMessage event, Emitter<WelcomeState> emitter) async {
     emitter(state.copyWith(status: WelcomeStatus.loading));
     try {
-      final welcome = await welcomeRepo.getWelcomeMessage();
+      final message = await welcomeRepo.getWelcomeMessage(event.id);
       emitter(
         state.copyWith(
           status: WelcomeStatus.success,
-          welcome: welcome,
+          message: message,
         ),
       );
     } catch (error) {
       emitter(
         state.copyWith(
           status: WelcomeStatus.error,
-          welcome: Welcome(title: 'Error', message: error.toString()),
+          message: error.toString(),
         ),
       );
     }

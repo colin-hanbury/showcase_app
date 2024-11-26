@@ -13,6 +13,9 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 - flutter pub get
 - create a .dotenv file in lib directory
 - populate baseurl with localhost url or if swap out localhost for a cloud hosted url
+    - BASE_URL=http://localhost:8080
+  - or if don't want to set up the local server just use:
+    - BASE_URL=https://showcase-api-service-378876075190.australia-southeast2.run.app
 - run in chrome or android (iOS not yet tested) using the following: flutter run lib/main.dart
 
 ## Tech
@@ -27,9 +30,10 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 ## Architecture
 
 * BLoC pattern
+    * Nice state management capabilities
     * Separation of concerns
     * Clean & Readable
-    * Great state management capabilities
+
 
 ## Future Improvements & Extensions
 

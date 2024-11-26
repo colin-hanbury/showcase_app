@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:showcase_app/models/visitor.dart';
+import 'package:showcase_app/models/user.dart';
 import 'package:showcase_app/services/actions_api.dart';
 
 class ActionsRepo {
@@ -9,17 +9,19 @@ class ActionsRepo {
 
   final ActionsAPI _actionsAPI;
 
-  Future<bool> submitDetails(Visitor visitor) async {
+  Future<User?> submitDetails(User visitor) async {
     try {
       final response = await _actionsAPI.postActions(visitor);
-      return response['success'] == 'false'
-          ? throw Exception([
-              response['error'] ?? 'upload error',
-            ])
-          : true;
+      final responseData = response["user"];
+      final user = User(
+        id: responseData['_id'],
+        name: responseData['name'],
+        nationality: responseData['nationality'],
+      );
+      return user;
     } catch (error) {
       log(error.toString());
-      return false;
+      return null;
     }
   }
 }

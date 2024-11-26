@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:showcase_app/models/visitor.dart';
+import 'package:showcase_app/models/user.dart';
 
 class ActionsEvent extends Equatable {
   @override
@@ -7,12 +7,12 @@ class ActionsEvent extends Equatable {
 }
 
 class SubmitDetails extends ActionsEvent {
-  final Visitor visitor;
+  final User user;
 
   SubmitDetails({
-    required this.visitor,
+    required this.user,
   });
 
   @override
-  List<Object> get props => [visitor];
+  List<Object> get props => [user];
 }

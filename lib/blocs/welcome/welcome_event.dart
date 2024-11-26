@@ -5,4 +5,13 @@ class WelcomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetWelcomeMessage extends WelcomeEvent {}
+class GetWelcomeMessage extends WelcomeEvent {
+  final String id;
+
+  GetWelcomeMessage({
+    required this.id,
+  });
+
+  @override
+  List<Object> get props => [id];
+}

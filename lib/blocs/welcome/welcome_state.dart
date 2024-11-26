@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:showcase_app/models/welcome.dart';
 
 enum WelcomeStatus {
   initial,
@@ -9,26 +8,26 @@ enum WelcomeStatus {
 }
 
 class WelcomeState extends Equatable {
-  final Welcome welcome;
+  final String message;
   final WelcomeStatus status;
 
   WelcomeState({
     this.status = WelcomeStatus.initial,
-    Welcome? welcome,
-  }) : welcome = welcome ?? Welcome(title: null, message: null);
+    String? message,
+  }) : message = message ?? 'Welcome';
 
   @override
   List<Object?> get props => [
         status,
-        welcome,
+        message,
       ];
 
   WelcomeState copyWith({
     WelcomeStatus? status,
-    Welcome? welcome,
+    String? message,
   }) =>
       WelcomeState(
         status: status ?? this.status,
-        welcome: welcome ?? this.welcome,
+        message: message ?? this.message,
       );
 }

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:showcase_app/models/welcome.dart';
 import 'package:showcase_app/services/welcome_api.dart';
 
 class WelcomeRepo {
@@ -9,18 +8,14 @@ class WelcomeRepo {
 
   final WelcomeAPI _welcomeAPI;
 
-  Future<Welcome> getWelcomeMessage() async {
+  Future<String?> getWelcomeMessage(String id) async {
     try {
-      final data = await _welcomeAPI.getWelcomeMessage();
-      final welcomeMessage = data["welcomeMessage"];
-      final welcome = Welcome(
-        title: welcomeMessage['title'],
-        message: welcomeMessage['message'],
-      );
-      return welcome;
+      final response = await _welcomeAPI.getWelcomeMessage(id);
+      final message = response['message'];
+      return message;
     } catch (error) {
       log(error.toString());
-      return Welcome(title: null, message: null);
+      return null;
     }
   }
 }

@@ -1,15 +1,18 @@
-class Visitor {
+class User {
+  final String? id;
   final String? name;
   final String? nationality;
 
-  factory Visitor.fromJson(Map<String, dynamic> json) {
-    return Visitor(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['_id'],
       name: json['name'],
       nationality: json['nationality'],
     );
   }
 
-  Visitor({
+  User({
+    this.id,
     this.name,
     this.nationality,
   });

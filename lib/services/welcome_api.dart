@@ -5,9 +5,9 @@ class WelcomeAPI {
   final dio = Dio();
   final url = dotenv.get('BASE_URL');
 
-  Future<dynamic> getWelcomeMessage() async {
+  Future<dynamic> getWelcomeMessage(String id) async {
     try {
-      Response response = await dio.get("$url/welcome");
+      Response response = await dio.get("$url/welcome?id=$id");
       if (response.statusCode != 200) {
         throw Exception(["Error: ${response.statusCode}"]);
       }
