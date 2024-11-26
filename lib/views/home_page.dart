@@ -39,6 +39,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _welcomeMessage() {
+    return Center(
+      child: Card(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: _messageContent(),
+        ),
+      ),
+    );
+  }
+
   Widget _messageContent() {
     final status = context.read<WelcomeBloc>().state.status;
     switch (status) {
@@ -51,8 +63,7 @@ class _HomePageState extends State<HomePage> {
         );
       case WelcomeStatus.initial:
         context.read<WelcomeBloc>().add(
-              GetWelcomeMessage(
-                  id: context.read<ActionsBloc>().state.user.id ?? ''),
+              GetWelcomeMessage(),
             );
         return const SizedBox();
       default:
@@ -67,15 +78,6 @@ class _HomePageState extends State<HomePage> {
           ),
         );
     }
-  }
-
-  Widget _welcomeMessage() {
-    return Center(
-      child: Card(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: _messageContent(),
-      ),
-    );
   }
 
   Widget _actions() {
@@ -109,8 +111,7 @@ class _HomePageState extends State<HomePage> {
         return _form();
       case ActionsStatus.success:
         context.read<WelcomeBloc>().add(
-              GetWelcomeMessage(
-                  id: context.read<ActionsBloc>().state.user.id ?? ''),
+              GetWelcomeMessage(),
             );
         return _form();
       default:
@@ -176,9 +177,10 @@ class _HomePageState extends State<HomePage> {
                         context.read<ActionsBloc>().add(
                               SubmitDetails(
                                 user: User(
-                                  name: nameInputController.value.text,
-                                  nationality:
-                                      nationalityInputController.value.text,
+                                  name: nameInputController.value.text.trim(),
+                                  nationality: nationalityInputController
+                                      .value.text
+                                      .trim(),
                                 ),
                               ),
                             );

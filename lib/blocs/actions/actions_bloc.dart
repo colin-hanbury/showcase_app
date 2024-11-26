@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcase_app/blocs/actions/actions_event.dart';
 import 'package:showcase_app/blocs/actions/actions_state.dart';
 import 'package:showcase_app/models/user.dart';
@@ -19,14 +20,33 @@ class ActionsBloc extends Bloc<ActionsEvent, ActionsState> {
       final User? user = await actionsRepo.submitDetails(
         event.user,
       );
+      validateUserData(user);
+      await storeUserData(user!);
       emitter(
         state.copyWith(
-          status: user == null ? ActionsStatus.error : ActionsStatus.success,
+          status: ActionsStatus.success,
           user: user,
         ),
       );
     } catch (e) {
       emitter(state.copyWith(status: ActionsStatus.error, user: null));
     }
+  }
+
+  void validateUserData(User? user) {
+    if (user != null ||
+        user?.id != null ||
+        user?.name != null ||
+        user?.nationality != null) {
+      if (user!.id!.isNotEmpty ||
+          user.name!.isNotEmpty ||
+          user.nationality!.isNotEmpty) return;
+    }
+    throw Exception("No user returned");
+  }
+
+  Future<void> storeUserData(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userId', user.id!);
   }
 }

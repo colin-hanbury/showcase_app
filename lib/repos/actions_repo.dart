@@ -9,9 +9,9 @@ class ActionsRepo {
 
   final ActionsAPI _actionsAPI;
 
-  Future<User?> submitDetails(User visitor) async {
+  Future<User?> submitDetails(User localUser) async {
     try {
-      final response = await _actionsAPI.postActions(visitor);
+      final response = await _actionsAPI.postActions(localUser);
       final responseData = response["user"];
       final user = User(
         id: responseData['_id'],
