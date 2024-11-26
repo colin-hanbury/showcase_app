@@ -4,19 +4,30 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 
 ## Getting Started
 
-### Prerequisites
-
-* Have installed Flutter, Dart and a code editor of your choice
 
 ### Local Setup
 
-- flutter pub get
-- create a .dotenv file in lib directory
-- populate baseurl with localhost url or if swap out localhost for a cloud hosted url
+* Install flutter & dart
+  * https://docs.flutter.dev/get-started/install
+* get dependencies
+  flutter pub get
+* create a .dotenv file in lib directory
+* populate baseurl with localhost url
     - BASE_URL=http://localhost:8080
-  - or if don't want to set up the local server just use:
-    - BASE_URL=https://showcase-api-service-378876075190.australia-southeast2.run.app
-- run in chrome or android (iOS not yet tested) using the following: flutter run lib/main.dart
+* setup and run local server
+  * see https://github.com/colin-hanbury/showcase_server for details
+* run in chrome or android (iOS not yet tested) using the following:
+  flutter run lib/main.dart
+
+#### Express Startup Guide
+
+* flutter pub get
+* create a .dotenv file in lib directory
+* populate baseurl with localhost url
+  - BASE_URL=https://showcase-api-service-378876075190.australia-southeast2.run.app
+* run in chrome or android (iOS not yet tested) using the following:
+  * flutter run lib/main.dart
+
 
 ## Tech
 
@@ -24,16 +35,18 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 
 * Cross-platform
 * Fast development
-  * pre built components
-* good native mobile performance
+  * Pre built components
+* Very good native mobile performance
 
 ## Architecture
 
 * BLoC pattern
-    * Nice state management capabilities
-    * Separation of concerns
-    * Clean & Readable
-
+  * Nice state management capabilities
+  * Separation of concerns
+  * Clean & Readable
+* Shared Preferences
+  * Fast way persist data across sessions
+  * Data is none sensitive for this use-case
 
 ## Future Improvements & Extensions
 
