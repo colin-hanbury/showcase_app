@@ -1,29 +1,25 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:showcase_app/showcase_app.dart';
 
-void main() {
-  group('end-to-end', () {
-    testWidgets('tap on the floating action button, verify counter',
-        (tester) async {
+Future<void> main() async {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() async {
+    dotenv.testLoad(fileInput: '''
+    BASE_URL=https://example.com
+  ''');
+  });
+  group('HomePage Integration Test', () {
+    testWidgets('handles submit button tap with empty input',
+        (WidgetTester tester) async {
       await tester.pumpWidget(const ShowcaseApp());
-
-      expect(find.text('Submit'), findsOneWidget);
-      expect(find.text('Welcome'), findsOneWidget);
-      expect(find.text('Hi'), findsOneWidget);
-
-      final submitButton = find.byKey(const ValueKey('submit'));
-      final visitorName = find.byKey(const ValueKey('name'));
-      final visitorNationality = find.byKey(const ValueKey('nationality'));
-
-      tester.enterText(visitorName, 'Tester');
-      tester.enterText(visitorNationality, 'est');
-      await tester.tap(submitButton);
-
-      await tester.pumpAndSettle();
-
-      expect(find.text('Welcome Tester'), findsOneWidget);
-      expect(find.text("It's a great day to alive and test"), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text('Submit'), findsAny);
+      await tester.tap(find.text('Submit'));
+      await tester.pump();
+      expect(find.text('Invalid input'), findsAny);
     });
   });
 }

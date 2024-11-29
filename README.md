@@ -7,20 +7,27 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
 
 ### Local Setup
 
-* Install flutter & dart
+* install flutter & dart
   * https://docs.flutter.dev/get-started/install
 * get dependencies
   flutter pub get
-* create a .dotenv file in lib directory
+* create a .env file in lib directory
 * populate baseurl with localhost url
-    - BASE_URL=http://localhost:8080
+  * BASE_URL=http://localhost:8080
 * setup and run local server
   * see https://github.com/colin-hanbury/showcase_server for details
 * run in chrome or android (iOS not yet tested) using the following:
   flutter run lib/main.dart
 
-#### Express Startup Guide
+* to run the unit tests:
+  flutter pub run build_runner build
+  flutter test
 
+* to run the integration tests
+  flutter test test/integration/integration_tests.dart
+
+
+#### Express Startup Guide
 * flutter pub get
 * create a .dotenv file in lib directory
 * populate baseurl with localhost url

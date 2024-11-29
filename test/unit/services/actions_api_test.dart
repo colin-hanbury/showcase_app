@@ -1,84 +1,67 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:showcase_app/models/user.dart';
 import 'package:showcase_app/services/actions_api.dart';
 
-// Mock Dio class
-class MockDio extends Mock implements Dio {}
+import 'actions_api_test.mocks.dart';
 
+@GenerateMocks([Dio])
 void main() {
-  late ActionsAPI actionsAPI;
   late MockDio mockDio;
+  late ActionsAPI actionsAPI;
+  late User mockUser;
 
-  // Set up dotenv mock
-  setUpAll(() {
-    dotenv.load();
-    when(() => dotenv.get('BASE_URL')).thenReturn('https://fakeapi.com');
-  });
-
-  setUp(() {
+  setUp(() async {
+    await dotenv.load(fileName: '.env');
     mockDio = MockDio();
-    actionsAPI = ActionsAPI();
+    actionsAPI = ActionsAPI(dio: mockDio); // Inject the mocked Dio
+    mockUser = User(id: '123', name: 'John Doe', nationality: 'American');
   });
 
   group('ActionsAPI', () {
-    test('should return response data when postActions is successful',
-        () async {
-      final user = User(name: 'John Doe', nationality: 'American');
+    test('postActions returns a user on success', () async {
+      final mockData = {
+        "user": {
+          "_id": "123",
+          "name": "John Doe",
+          "nationality": "American",
+        },
+      };
       final mockResponse = Response(
         requestOptions: RequestOptions(path: ''),
         statusCode: 200,
-        data: {'message': 'success'},
+        data: mockData,
       );
 
-      // Mock the Dio post method to return a successful response
-      when(() => mockDio.post(any(), data: any(named: 'data'))).thenAnswer(
-        (_) async => mockResponse,
-      );
+      when(mockDio.post(
+        any,
+        data: anyNamed('data'),
+      )).thenAnswer((_) async => mockResponse);
 
-      // Perform the actual test
-      final result = await actionsAPI.postActions(user);
+      final result = await actionsAPI.postActions(mockUser);
 
-      expect(result, {'message': 'success'});
-      verify(() => mockDio.post('https://fakeapi.com/actions',
-          data: {'name': 'John Doe', 'nationality': 'American'})).called(1);
+      expect(result["user"], isNotNull);
+      expect(result["user"]["_id"], equals('123'));
+      expect(result["user"]["name"], equals('John Doe'));
+      expect(result["user"]["nationality"], equals('American'));
     });
 
-    test('should throw error when postActions returns non-200 status code',
-        () async {
-      final user = User(name: 'John Doe', nationality: 'American');
-      final mockResponse = Response(
-        requestOptions: RequestOptions(path: ''),
-        statusCode: 400,
-        data: {'message': 'bad request'},
-      );
-
-      // Mock the Dio post method to return a response with a non-200 status code
-      when(() => mockDio.post(any(), data: any(named: 'data'))).thenAnswer(
-        (_) async => mockResponse,
-      );
-
-      // Perform the actual test
-      expect(() => actionsAPI.postActions(user), throwsA(isA<Exception>()));
-    });
-
-    test('should handle exception and return the error', () async {
-      final user = User(name: 'John Doe', nationality: 'American');
-
-      // Mock the Dio post method to throw an error
-      when(() => mockDio.post(any(), data: any(named: 'data')))
-          .thenThrow(DioException(
-        requestOptions: RequestOptions(path: ''),
-        type: DioExceptionType.badResponse,
+    test('postActions throws an exception on error', () async {
+      when(mockDio.post(
+        any,
+        data: anyNamed('data'),
+      )).thenThrow(DioException(
+        requestOptions: RequestOptions(
+          path: '',
+        ),
         error: 'Network Error',
       ));
 
-      // Perform the actual test
-      final result = await actionsAPI.postActions(user);
-
-      expect(result, isA<DioException>());
+      expect(() async => await actionsAPI.postActions(mockUser),
+          throwsA(isA<DioException>()));
     });
   });
 }

@@ -3,21 +3,30 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:showcase_app/models/user.dart';
 
 class ActionsAPI {
-  final dio = Dio();
-  final url = dotenv.get('BASE_URL');
+  ActionsAPI({
+    Dio? dio,
+    String? url,
+  })  : dio = dio ?? Dio(),
+        url = dotenv.get('BASE_URL');
+
+  final Dio dio;
+  final String url;
 
   Future<dynamic> postActions(User user) async {
     try {
+      final data = {'name': user.name, 'nationality': user.nationality};
       Response response = await dio.post(
         "$url/actions",
-        data: {'name': user.name, 'nationality': user.nationality},
+        data: data,
       );
       if (response.statusCode != 200) {
-        throw Exception(["Error: ${response.statusCode}"]);
+        throw DioException(
+            message: "Error: ${response.statusCode}",
+            requestOptions: RequestOptions(path: '/actions', data: data));
       }
       return response.data;
     } catch (error) {
-      return error;
+      rethrow;
     }
   }
 }

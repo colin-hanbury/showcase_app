@@ -65,7 +65,12 @@ class _HomePageState extends State<HomePage> {
         context.read<WelcomeBloc>().add(
               GetWelcomeMessage(),
             );
-        return const SizedBox();
+        return Center(
+          child: CircularProgressIndicator(
+            backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
+        );
       default:
         return ListTile(
           title: Text(
@@ -132,7 +137,6 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                key: const Key('name'),
                 decoration: const InputDecoration(
                   hintText: 'Enter your name',
                 ),
@@ -145,7 +149,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               TextFormField(
-                key: const Key('nationality'),
                 decoration: const InputDecoration(
                   hintText: 'Enter your nationality',
                 ),
@@ -161,7 +164,6 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Center(
                   child: ElevatedButton(
-                    key: const Key('submit'),
                     style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(
                             Theme.of(context).colorScheme.secondaryContainer),
