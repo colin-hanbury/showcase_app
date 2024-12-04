@@ -38,15 +38,15 @@ class ActionsBloc extends Bloc<ActionsEvent, ActionsState> {
         user?.id != null ||
         user?.name != null ||
         user?.nationality != null) {
-      if (user!.id!.isNotEmpty ||
-          user.name!.isNotEmpty ||
-          user.nationality!.isNotEmpty) return;
+      if (user!.id.isNotEmpty ||
+          user.name.isNotEmpty ||
+          user.nationality.isNotEmpty) return;
     }
     throw Exception("No user returned");
   }
 
   Future<void> storeUserData(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userId', user.id!);
+    prefs.setString('userId', user.id);
   }
 }

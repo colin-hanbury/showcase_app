@@ -1,7 +1,9 @@
-class User {
-  final String? id;
-  final String? name;
-  final String? nationality;
+import 'package:equatable/equatable.dart';
+
+class User extends Equatable {
+  final String id;
+  final String name;
+  final String nationality;
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -12,8 +14,13 @@ class User {
   }
 
   User({
-    this.id,
-    this.name,
-    this.nationality,
-  });
+    String? id,
+    String? name,
+    String? nationality,
+  })  : id = id ?? '',
+        name = name ?? '',
+        nationality = nationality ?? '';
+
+  @override
+  List<Object> get props => [id, name, nationality];
 }
