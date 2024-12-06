@@ -23,8 +23,10 @@ A showcase Flutter app to demonstrate the app development skills of Colin Hanbur
   flutter pub run build_runner build
   flutter test
 
-* to run the integration tests
-  flutter test test/integration/integration_tests.dart
+* integration tests
+  * start up local server and db
+  * run the following command:
+    flutter test test/integration/integration_tests.dart
 
 
 #### Express Startup Guide

@@ -137,6 +137,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                key: const Key("name-field"),
                 decoration: const InputDecoration(
                   hintText: 'Enter your name',
                 ),
@@ -149,6 +150,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               TextFormField(
+                key: const Key("nationality-field"),
                 decoration: const InputDecoration(
                   hintText: 'Enter your nationality',
                 ),
